@@ -17,6 +17,9 @@ app.use(express.json());
 app.use('/api/users', userRoutes);
 app.use('/api/candidates', candidateRoutes);
 app.use('/api/teams', teamRoutes);
+app.get('/', (req, res)=> {
+  res.send('API PICA PAU');
+})
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
