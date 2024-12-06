@@ -17,6 +17,13 @@ class Candidate {
   static async delete(id) {
     await pool.query('DELETE FROM candidato WHERE id = ?', [id]);
   }
+
+  static async hire({ nome, cargo, link }) {
+    await pool.query(
+      'INSERT INTO funcionarios (nome, cargo, link) VALUES (?, ?, ?)',
+      [nome, cargo, link]
+    );
+  }
 }
 
 module.exports = Candidate;

@@ -28,3 +28,22 @@ exports.deleteCandidate = async (req, res) => {
     res.status(500).json({ error: 'Erro ao excluir candidato.' });
   }
 };
+exports.hireCandidate = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const [candidate] = await pool.query('SELECT * FROM candidato WHERE id = ?', [id]);
+
+    if (!candidate.length) {
+      return res.status(404).json({ error: 'Candidato não encontrado.' });
+    }
+
+    const { nome, cargo_pretendido, link } = candidate[0];
+
+    await Candidate.hire({ nome, cargo: cargo_pretendido, link });
+    await Candidate.delete(id);
+
+    res.status(200).json({ message: 'Candidato contratado com sucesso!' });
+  } catch (error) {
+    res.status(500).json({ error: 'Erro ao contratar candidato.' });
+  }
+};
